@@ -1,9 +1,11 @@
 // cubeData = { name, description, imageUrl, difficultyLevel }
-const uniqid = require('uniqid');
-const cubes = [];
 
-exports.getAll = (search, from, to) => {
-    let result = cubes.slice();
+const Cube = require('../models/Cube');
+
+exports.getAll = async (search, from, to) => {
+    let result = await Cube.find().lean();
+
+    //TODO: Use Mongoose to filter in the DataBase
     if(search) {
         result = result.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()));
     }
@@ -15,13 +17,10 @@ exports.getAll = (search, from, to) => {
     }
     return result;
 }
-exports.getOne = (cubeId) => cubes.find(x => x.id == cubeId);
+exports.getOne = (cubeId) => Cube.findById(cubeId);
 
-exports.create = (cubeData) => {
-    const newCube = {
-        id: uniqid(),
-        ...cubeData,
-    };
-    cubes.push(newCube);
-    return newCube;
+exports.create = async (cubeData) => {
+   const cube = new Cube(cubeData);
+   await cube.save();
+   return cube;
 };
