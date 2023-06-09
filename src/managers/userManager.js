@@ -1,9 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('../lib/jwt');
 const User = require('../models/User');
-
-// node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-const SECRET = 'bbf908f59c60c3604a605341e54139fd24ca6477ddb7d43e873b2ec18846c40b';
+const { SECRET } = require('../config/config');
 
 exports.register = (userData) => User.create(userData);
 exports.login = async (username, password) => {
