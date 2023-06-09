@@ -11,7 +11,7 @@ router.get('/:cubeId/details', async (req, res) => {
   if(!cube) {
     return res.redirect('/404');
   }
-  const isOwner = cube.owner?.toString() === req.user._id;
+  const isOwner = cube.owner?.toString() === req.user?._id;
   res.render('cube/details', { cube, isOwner });
 });
 
@@ -39,7 +39,7 @@ await cubeManager.create({
 
 router.get('/:cubeId/attach-accessory', isAuth, async (req, res) => {
   const cube = await cubeManager.getOne(req.params.cubeId).lean();
-  if(cube.owner.toString() !== req.user._id) {
+  if(cube.owner.toString() !== req.user?._id) {
     return res.redirect('/404')
   }
   const accessories = await accessoryManager.getOthers(cube.accessories).lean();
@@ -56,7 +56,7 @@ router.post('/:cubeId/attach-accessory', isAuth, async (req, res) => {
 
 router.get('/:cubeId/delete', isAuth, async (req, res) => {
   const cube = await cubeManager.getOne(req.params.cubeId).lean();
-  if(cube.owner.toString() !== req.user._id) {
+  if(cube.owner.toString() !== req.user?._id) {
     return res.redirect('/404')
   }
   const options = getDifficultyOptionsViewData(cube.difficultyLevel);
@@ -70,7 +70,7 @@ res.redirect('/');
 
 router.get('/:cubeId/edit', isAuth, async (req, res) => {
   const cube = await cubeManager.getOne(req.params.cubeId).lean();
-  if(cube.owner.toString() !== req.user._id) {
+  if(cube.owner.toString() !== req.user?._id) {
     return res.redirect('/404')
   }
   const options = getDifficultyOptionsViewData(cube.difficultyLevel);
