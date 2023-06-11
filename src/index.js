@@ -3,6 +3,7 @@ const express = require("express");
 const expressConfig = require("./config/expressConfig");
 const handlebarsConfig = require("./config/handlebarsConfig");
 const dbConnect = require("./config/dbConfig");
+const errorHandler = require('./middlewares/errorHandlerMiddleware');
 const routes = require("./routes");
 
 const app = express();
@@ -17,4 +18,5 @@ dbConnect()
   .catch((err) => console.log("DB error: ", err));
 
 app.use(routes);
+app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}...`));
